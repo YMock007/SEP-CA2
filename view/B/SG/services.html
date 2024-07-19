@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="../checkCountry.js"></script>
+        <script src="../../header.js"></script>
+        <img src="../img/" alt="">
+        <link rel="stylesheet" href="../css/theme.css">
+    </head>
+    <body>
+        <div class="body">
+            <script>
+                document.addEventListener('DOMContentLoaded', function(){
+                    var htmlTxt = '';
+                    var services = JSON.parse(localStorage.getItem('services'));
+                    for (var i in services) {
+                        var service = services[i];
+                        htmlTxt += `
+                            <div class="panel panel-default toggle" style="margin-bottom:10px;">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#collapsable" href="#collapse${i}" onclick="changeIcon(this)">
+                                            <i class="icon icon-plus plusMinusIcon" style="font-size: 0.7em;"></i>
+                                            ${service.name}
+                                            <i class="icon icon-caret-right" style="float:right;padding-top:5px;"></i>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse${i}"  class="panel-collapse collapse">
+                                    <div class="row col-12 d-flex justify-content-center align-items-center">
+                                        <div class="col-12 col-md-5 d-flex justify-content-center align-items-center text-center">
+                                            <img src="../img/${service.name.replace(/ /g, '_').toLowerCase()}.svg" alt="${service.name}" style="width:100%; max-width:300px;">
+                                        </div>
+                                        <div class="col-12 col-md-7 d-flex justify-content-center align-items-center">
+                                            <p>${service.description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>`;
+                    }
+                    document.getElementById('collapsable').innerHTML = htmlTxt;
+                }, false);
+
+                function changeIcon(e) {
+                    var currentIcon = e.querySelector('i');
+                    var opened = currentIcon.classList.contains('icon-minus');
+
+                    var otherIcons = document.getElementById("collapsable").querySelectorAll('.plusMinusIcon');
+                    otherIcons.forEach(icon => icon.classList.replace('icon-minus', 'icon-plus'));
+
+                    if (!opened) {
+                        currentIcon.classList.replace('icon-plus', 'icon-minus');
+                    }
+                }
+            </script>
+            <script src="menu2.js"></script>
+            <div role="main" class="main">
+                <section class="page-top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2>Services Available</h2>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="container">
+                    <div class="row>
+                        <div class="col-md-12">
+                            <div class="panel-group" id="collapsable"></div>
+                        </div>
+                    </div>
+                </div>
+                <script src="../footer.js"></script>
+                <script src="../../js/theme.plugins.js"></script>
+                <script src="../../js/theme.js"></script>
+                <script src="../../vendor/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+                <script src="../../vendor/rs-plugin/js/jquery.themepunch.revolution.js"></script>
+                <script src="../../vendor/circle-flip-slideshow/js/jquery.flipshow.js"></script>
+                <script src="../../js/views/view.home.js"></script>
+            </div>
+        </div>
+    </body>
+</html>
