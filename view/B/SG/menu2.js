@@ -1,4 +1,13 @@
 var countryPrefix = localStorage.getItem("urlPrefix");
+
+var member = JSON.parse(sessionStorage.getItem("member"));
+console.log(member)
+console.log("id", member.id)
+var id = member.id;
+if (sessionStorage.getItem("memberName") == "null") {
+    loggedInUserName = "User " + id;
+} else loggedInUserName = sessionStorage.getItem("memberName");
+
 document.write('\
 <script>\
     document.addEventListener("DOMContentLoaded", function(){\
@@ -73,13 +82,13 @@ document.write('\
                         <a href="/B/' + countryPrefix + '/shoppingCart.html"><i class="icon icon-shopping-cart"></i>Shopping Cart</a>\
                     </li>\
                     <li>\
-                        <a href="/B/' + countryPrefix + '/memberProfile.html"><i class="icon icon-user"></i>Profile</a>\
+                    <a href="/B/' + countryPrefix + '/contactUs.html"><i class="icon icon-shopping-cart"></i>Contact Us</a>\
                     </li>\
                     <li>\
-                        <a href="/B/' + countryPrefix + '/contactUs.html"><i class="icon icon-shopping-cart"></i>Contact Us</a>\
+                    <a href="#" onclick="logout()"><i class="icon icon-unlock-alt"></i>Logout</a>\
                     </li>\
-                    <li>\
-                        <a href="#" onclick="logout()"><i class="icon icon-unlock-alt"></i>Logout</a>\
+                    <li class="nav nav-pills nav-main" id="mainMenu" >\
+                        <a href="/B/' + countryPrefix + '/memberProfile.html" style="background-color: #cc3b33; color: white;"><i class="icon icon-user"></i>'+ loggedInUserName +'</a>\
                     </li>\
                 </ul>\
                 <button class="btn btn-responsive-nav btn-inverse" data-toggle="collapse" data-target=".nav-main-collapse">\
