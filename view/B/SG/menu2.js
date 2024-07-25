@@ -1,12 +1,14 @@
 var countryPrefix = localStorage.getItem("urlPrefix");
-
-var member = JSON.parse(sessionStorage.getItem("member"));
-console.log(member)
-console.log("id", member.id)
-var id = member.id;
-if (sessionStorage.getItem("memberName") == "null") {
-    loggedInUserName = "User " + id;
-} else loggedInUserName = sessionStorage.getItem("memberName");
+if (sessionStorage.getItem("member")) {
+    var member = JSON.parse(sessionStorage.getItem("member"));
+    console.log(member)
+    console.log("id", member.id)
+    var id = member.id;
+    if (sessionStorage.getItem("memberName") == "null") {
+        loggedInUserName = "User " + id;
+    } else loggedInUserName = sessionStorage.getItem("memberName");
+    
+} else loggedInUserName = null;
 
 document.write('\
 <script>\

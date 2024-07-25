@@ -29,7 +29,7 @@
             var member = null;
             document.addEventListener('DOMContentLoaded', function(){
                 member = JSON.parse(sessionStorage.getItem("member"));
-
+                populateForm(member);
                 if(member.sla == 1) {
                     document.getElementById("serviceLevelAgreement").checked = true;
                 }
@@ -150,6 +150,35 @@
                 });
             }, false);
 
+            function populateForm(data) {
+                // Handle text inputs with placeholder if data is null or empty
+                const setPlaceholderOrValue = (id, value) => {
+                    const element = document.getElementById(id);
+                    if (value) {
+                        element.value = value;
+                        element.placeholder = "";
+                    } else {
+                        element.value = "";
+                        element.placeholder = "Please provide " + id;
+                    }
+                };
+
+                setPlaceholderOrValue("email", data.email);
+                setPlaceholderOrValue("name", data.name);
+                setPlaceholderOrValue("phone", data.phone);
+                setPlaceholderOrValue("address", data.address);
+                setPlaceholderOrValue("securityAnswer", data.securityAnswer);
+                setPlaceholderOrValue("age", data.age);
+                setPlaceholderOrValue("income", data.income);
+
+                document.getElementById("country").value = data.city || "Singapore";
+
+                document.getElementById("securityQuestion").value = data.securityQuestion || data.securityQuestion[0];
+
+                document.getElementById("serviceLevelAgreement").checked = data.sla === 1;
+            }
+
+
             function addWorkDays(startDate, days) {
                 var dow = startDate.getDay();
                 var daysToAdd = parseInt(days);
@@ -231,7 +260,8 @@
                             sla: document.getElementById("serviceLevelAgreement").checked ? 1:0,
                             password: document.getElementById("password").value
                         };
-                        
+     
+
                         fetch(new Request('/api/updateMember',
                         {
                             method: 'PUT',
@@ -261,6 +291,8 @@
             function pdpaWindow() {
                 var myWindow = window.open("pdpa.html");
             }
+
+            
         </script>
         <script src="menu2.js"></script>
         <div role="main" class="main">
@@ -290,12 +322,12 @@
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div id="overview" class="tab-pane active">
+                                <div id="overview" class="tab-pane active">                              
                                     <form onsubmit="return false;" id="profileForm">
                                         <h4>Personal Information</h4>
                                         <div class="form-group">
                                             <label>Name</label>
-                                            <input class="form-control" required="true" id="name" type="text" />
+                                            <input class="form-control" required="true" id="name" type="text"/>
                                         </div>
                                         <div class="form-group">
                                             <label>E-mail Address</label>
