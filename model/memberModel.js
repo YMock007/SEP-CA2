@@ -94,7 +94,11 @@ var memberDB = {
                         if (err) {
                             conn.end();
                             return reject(err);
-                        } else {
+                        } else if (result.length ==0) {
+                            var member = new Member();
+                            conn.end();
+                            return resolve (member);
+                        }else {
                             var member = new Member();
                             member.id = result[0].ID;
                             member.dob = result[0].DOB;

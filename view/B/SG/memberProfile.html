@@ -29,10 +29,9 @@
             var member = null;
             document.addEventListener('DOMContentLoaded', function(){
                 member = JSON.parse(sessionStorage.getItem("member"));
-                populateForm(member);
-                if(member.sla == 1) {
-                    document.getElementById("serviceLevelAgreement").checked = true;
-                }
+                const sla = member.sla;
+                populateForm(member, sla);
+                
 
                 //Get Bought Items
                 fetch(new Request('/api/getBoughtItem/' + member.id, {
@@ -150,7 +149,10 @@
                 });
             }, false);
 
-            function populateForm(data) {
+            function populateForm(data, sla) {
+                if(sla == 1) {
+                    document.getElementById("serviceLevelAgreement").checked = true;
+                }
                 // Handle text inputs with placeholder if data is null or empty
                 const setPlaceholderOrValue = (id, value) => {
                     const element = document.getElementById(id);
