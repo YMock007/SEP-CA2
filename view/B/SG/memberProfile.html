@@ -7,6 +7,7 @@
             var countryPrefix = localStorage.getItem('urlPrefix');
             //get token from session
             authToken = sessionStorage.getItem('token');
+            var member = JSON.parse(sessionStorage.getItem("member")) || {};
             if (authToken == null || authToken == "") {
                 window.location.href = '/B/' + countryPrefix + '/memberLogin.html';
             }
@@ -42,8 +43,12 @@
                 }))
                 .then(response => response.json())
                 .then(boughtItem => {
-                    if (!boughtItem || boughtItem.length === 0) {
-                        document.getElementById("salesHistoryTab").innerHTML = '<h5 class="center">You do not have any sales history.</h5>';
+                    console.log(boughtItem)
+                    if(!boughtItem || boughtItem.length === 0) {
+                        document.getElementById("salesHistoryTab").innerHTML = `
+                            <h4 style="color: black; font-weight: bold; text-align: center;">
+                                You currently have no sales history. Please purchase an item to view.
+                            </h4>`;
                     } else {
                         let htmlTxt = '';
                         let orderIdList = [...new Set(boughtItem.map(item => item.id))];
@@ -175,7 +180,7 @@
 
                 document.getElementById("country").value = data.city || "Singapore";
 
-                document.getElementById("securityQuestion").value = data.securityQuestion || data.securityQuestion[0];
+                document.getElementById("securityQuestion").value = data.securityQuestion || "What is your mother's maiden name?";
 
                 document.getElementById("serviceLevelAgreement").checked = data.sla === 1;
             }
@@ -205,6 +210,8 @@
                 var password = document.getElementById("password").value;
                 var repassword = document.getElementById("repassword").value;
                 var ok = true;
+
+
                 console.log(oldPassword)
                 if (document.getElementById("profileForm").checkValidity()) {
                     if (oldPassword != "" && password != "" && repassword != "") {
@@ -246,6 +253,14 @@
                         }).catch(function (error) {
                             console.log(error);
                         }); 
+                    } else {
+                        if (oldPassword != "" && (password == "" || repassword == "")) {
+                            alert("Please fill in all password fields.");
+                            ok = false;
+                        } else if (oldPassword == "" && (password != "" || repassword != "")) {
+                            alert("Please enter the old password.");
+                            ok = false;
+                        }
                     }
 
                     if(ok) {
@@ -262,7 +277,7 @@
                             sla: document.getElementById("serviceLevelAgreement").checked ? 1:0,
                             password: document.getElementById("password").value
                         };
-     
+                        
 
                         fetch(new Request('/api/updateMember',
                         {
@@ -647,7 +662,7 @@
                                     <h4>Loyalty Program</h4>
                                 </div>
                                 <div id="salesHistory" class="tab-pane">
-                                    <h4>Sales History</h4>
+                                    <h4 id="salesHistoryTitle">Sales History</h4>
                                     <div id="salesHistoryTab"></div>
                                 </div>
                             </div>

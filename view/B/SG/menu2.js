@@ -1,8 +1,6 @@
 var countryPrefix = localStorage.getItem("urlPrefix");
 if (sessionStorage.getItem("member")) {
     var member = JSON.parse(sessionStorage.getItem("member"));
-    console.log(member)
-    console.log("id", member.id)
     var id = member.id;
     if (sessionStorage.getItem("memberName") == "null") {
         loggedInUserName = "User " + id;
