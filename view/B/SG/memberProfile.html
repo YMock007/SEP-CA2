@@ -271,6 +271,31 @@
                             sla: document.getElementById("serviceLevelAgreement").checked ? 1:0,
                             password: document.getElementById("password").value
                         };
+                        // Create a copy of the data object without the password field
+                        var dummyData = { ...data };
+                        delete dummyData.password;
+ 
+                        // Rename the key 'country' to 'city'
+                        dummyData.city = dummyData.country;
+                        delete dummyData.country;
+ 
+                        dummyData.age = parseInt(dummyData.age);
+                        dummyData.income = parseInt(dummyData.income);
+                        dummyData.securityQuestion = parseInt(dummyData.securityQuestion);
+ 
+                        let isSame = true;
+                        for (let key in dummyData) {
+                            if (dummyData[key] !== member[key]) {
+                                console.log(dummyData[key])
+                                isSame = false;
+                                break;
+                            }
+                        }
+                        // Alert if the data is the same
+                        if (isSame) {
+                            alert("All data is the same as the member's data.");
+                            return;
+                        }
 
                         fetch(new Request('/api/updateMember',
                         {
