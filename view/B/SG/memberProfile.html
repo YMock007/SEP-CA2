@@ -266,7 +266,7 @@
                     if(ok) {
                         var data = {
                             email: document.getElementById("email").value,
-                            name: document.getElementById("name").value,
+                            name: document.getElementById("name").value.trim(),
                             phone: document.getElementById("phone").value,
                             country: document.getElementById("country").value,
                             address: document.getElementById("address").value,
@@ -277,6 +277,34 @@
                             sla: document.getElementById("serviceLevelAgreement").checked ? 1:0,
                             password: document.getElementById("password").value
                         };
+
+                        if(oldPassword===""){
+                            // Create a copy of the data object without the password field
+                            var dummyData = { ...data };
+                            delete dummyData.password;
+
+                            // Rename the key 'country' to 'city'
+                            dummyData.city = dummyData.country;
+                            delete dummyData.country;
+
+                            dummyData.age = parseInt(dummyData.age);
+                            dummyData.income = parseInt(dummyData.income);
+                            dummyData.securityQuestion = parseInt(dummyData.securityQuestion);
+
+                            let isSame = true;
+                            for (let key in dummyData) {
+                                if (dummyData[key] !== member[key]) {
+                                    console.log(dummyData[key])
+                                    isSame = false;
+                                    break;
+                                }
+                            }
+                            // Alert if the data is the same
+                            if (isSame) {
+                                alert("All data is the same as the member's data.");
+                                return;
+                            }
+                        }
 
                         fetch(new Request('/api/updateMember',
                         {
@@ -343,7 +371,7 @@
                                         <h4>Personal Information</h4>
                                         <div class="form-group">
                                             <label>Name</label>
-                                            <input class="form-control" required="true" id="name" type="text"/>
+                                            <input class="form-control" required="true" pattern="[A-Za-z\s]+" id="name" type="text"/>
                                         </div>
                                         <div class="form-group">
                                             <label>E-mail Address</label>
