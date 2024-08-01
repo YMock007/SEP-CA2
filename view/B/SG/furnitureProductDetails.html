@@ -26,7 +26,17 @@
                         + furniture.sku + '\',\'' + furniture.id + '\',' + furniture.price + ',\'' + furniture.name + '\',\''
                         + furniture.imageURL + '\')">Add To Cart</button>';
                     }
-               
+                    
+                    document.getElementById("furnitureName").textContent = furniture.name;
+                    document.getElementById("price").textContent = "$" + parseFloat(furniture.price).toFixed(2);
+                    document.getElementById("description").textContent = furniture.description;
+
+                    let furnitureInfo = "Height: " + furniture.height + " cm<br>"
+                        + "Length: " + furniture.length + " cm<br>"
+                        + "Width: " + furniture.width + " cm";
+
+                    document.getElementById("furnitureInfo").innerHTML = furnitureInfo;
+
                     document.getElementById("categoryLink").innerHTML = furniture.category;
                     document.getElementById("categoryLink").setAttribute('href', '/B/' + countryPrefix
                         + '/furnitureCategory.html?cat=' + encodeURIComponent(furniture.category));
